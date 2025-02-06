@@ -1,0 +1,42 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <div class="text-xl font-bold">Inventory Dashboard</div>
+        <a href="/logout" class="bg-red-500 px-4 py-2 rounded">Logout</a>
+    </nav>
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold mb-4">Equipment List</h2>
+        <table class="w-full bg-white shadow-md rounded">
+            <thead>
+                <tr>
+                    <th class="p-2 border">Equipment</th>
+                    <th class="p-2 border">Category</th>
+                    <th class="p-2 border">Stock</th>
+                    <th class="p-2 border">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in equipment.values() %}
+                <tr>
+                    <td class="p-2 border">{{ item.name }}</td>
+                    <td class="p-2 border">{{ item.category }}</td>
+                    <td class="p-2 border">{{ item.stock }}</td>
+                    <td class="p-2 border">
+                        <button class="bg-blue-500 px-2 py-1 text-white rounded">Edit</button>
+                        <button class="bg-red-500 px-2 py-1 text-white rounded">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
