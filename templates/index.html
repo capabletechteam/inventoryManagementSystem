@@ -14,6 +14,14 @@
     </nav>
     <div class="container mx-auto p-6">
         <h2 class="text-2xl font-bold mb-4">Equipment List</h2>
+        <form action="/add_equipment" method="post" class="mb-4">
+            <input type="text" name="barcode" placeholder="Barcode" class="w-full p-2 mb-2 border rounded" onfocus="this.type='text'">
+            <input type="text" name="name" placeholder="Name" class="w-full p-2 mb-2 border rounded">
+            <input type="text" name="category" placeholder="Category" class="w-full p-2 mb-2 border rounded">
+            <input type="number" name="stock" placeholder="Stock" class="w-full p-2 mb-2 border rounded">
+            <input type="text" name="location" placeholder="Location" class="w-full p-2 mb-2 border rounded">
+            <button type="submit" class="w-full bg-green-500 text-white p-2 rounded">Add Equipment</button>
+        </form>
         <table class="w-full bg-white shadow-md rounded">
             <thead>
                 <tr>
@@ -30,9 +38,51 @@
                     <td class="p-2 border">{{ item.category }}</td>
                     <td class="p-2 border">{{ item.stock }}</td>
                     <td class="p-2 border">
-                        <button class="bg-blue-500 px-2 py-1 text-white rounded">Edit</button>
-                        <button class="bg-red-500 px-2 py-1 text-white rounded">Delete</button>
+                        <form action="/edit_equipment/{{ item.barcode }}" method="post" class="inline">
+                            <button class="bg-blue-500 px-2 py-1 text-white rounded">Edit</button>
+                        </form>
+                        <form action="/delete_equipment/{{ item.barcode }}" method="post" class="inline">
+                            <button class="bg-red-500 px-2 py-1 text-white rounded">Delete</button>
+                        </form>
                     </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2 class="text-2xl font-bold mt-6 mb-4">Equipment Statistics</h2>
+        <div class="bg-white p-4 rounded shadow-md">
+            <p>Total Equipment: {{ total_equipment }}</p>
+            <p>Total Stock: {{ total_stock }}</p>
+        </div>
+        <h2 class="text-2xl font-bold mt-6 mb-4">Sign In/Out Equipment</h2>
+        <form action="/sign_in_out" method="post" class="mb-4">
+            <input type="text" name="barcode" placeholder="Barcode" class="w-full p-2 mb-2 border rounded" onfocus="this.type='text'">
+            <input type="text" name="person_signed_out_to" placeholder="Person Signed Out To" class="w-full p-2 mb-2 border rounded">
+            <input type="text" name="person_signed_out_by" placeholder="Person Signed Out By" class="w-full p-2 mb-2 border rounded">
+            <input type="text" name="location" placeholder="Location" class="w-full p-2 mb-2 border rounded">
+            <button type="submit" class="w-full bg-yellow-500 text-white p-2 rounded">Sign In/Out</button>
+        </form>
+        <h2 class="text-2xl font-bold mt-6 mb-4">Sign In/Out History</h2>
+        <table class="w-full bg-white shadow-md rounded">
+            <thead>
+                <tr>
+                    <th class="p-2 border">Date</th>
+                    <th class="p-2 border">Time</th>
+                    <th class="p-2 border">Barcode</th>
+                    <th class="p-2 border">Person Signed Out To</th>
+                    <th class="p-2 border">Person Signed Out By</th>
+                    <th class="p-2 border">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in sign_in_out_history %}
+                <tr>
+                    <td class="p-2 border">{{ record.date }}</td>
+                    <td class="p-2 border">{{ record.time }}</td>
+                    <td class="p-2 border">{{ record.barcode }}</td>
+                    <td class="p-2 border">{{ record.person_signed_out_to }}</td>
+                    <td class="p-2 border">{{ record.person_signed_out_by }}</td>
+                    <td class="p-2 border">{{ record.location }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
